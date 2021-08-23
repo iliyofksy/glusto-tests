@@ -31,7 +31,7 @@ from glustolibs.gluster.heal_libs import (is_volume_in_split_brain,
                                           monitor_heal_completion)
 
 
-@runs_on([['replicated'], ['glusterfs', 'cifs']])
+@runs_on([['distributed-replicated'], ['glusterfs', ]])
 class TestSelfHeal(GlusterBaseClass):
 
     @classmethod
@@ -53,11 +53,12 @@ class TestSelfHeal(GlusterBaseClass):
                    cls.clients)
 
         # Override Volumes
-        if cls.volume_type == "replicated":
+        if cls.volume_type == "distributed-replicated":
             # Define x2 replicated volume
             cls.volume['voltype'] = {
-                'type': 'replicated',
-                'replica_count': 2,
+                'type': 'distributed-replicated',
+                'dist_count': 2,
+                'replica_count': 3,
                 'transport': 'tcp'}
 
         # Setup Volume and Mount Volume
